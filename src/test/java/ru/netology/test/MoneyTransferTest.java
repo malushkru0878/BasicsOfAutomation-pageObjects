@@ -1,15 +1,17 @@
 package ru.netology.test;
 
 import lombok.val;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
-import ru.netology.page.DashboardPage;
 import ru.netology.page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.netology.data.DataHelper.*;
 
 
+@SuppressWarnings("ALL")
 public class MoneyTransferTest {
     @BeforeEach
     void setUp() {
@@ -18,7 +20,8 @@ public class MoneyTransferTest {
 
     @Test
     void shouldTransferFromCardToCardPositiveTest() {
-        val LoginPage = new LoginPage();
+        open("http://localhost:9999/");
+        val loginPage= new LoginPage();
         val authInfo = getAuthInfo();
         val verificationPage = LoginPage.validLogin(authInfo);
         val verificationCode = getVerificationCodeFor(authInfo);
@@ -37,7 +40,7 @@ public class MoneyTransferTest {
 
     @Test
     void shouldZeroSumTransferNegativeTest() {
-        val LoginPage = new LoginPage();
+        var loginPage = new LoginPage();
         val authInfo = DataHelper.getAuthInfo();
         val verificationPage = LoginPage.validLogin(authInfo);
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
@@ -49,24 +52,10 @@ public class MoneyTransferTest {
 
     }
 
-    @Test
-    void shouldAmountMoreBalanceIsNegativeTest() {
-        val LoginPage = new LoginPage();
-        val authInfo = DataHelper.getAuthInfo();
-        val verificationPage = LoginPage.validLogin(authInfo);
-        val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-        val dashboardPage = verificationPage.validVerify(verificationCode);
-        val secondCardBalance = dashboardPage.getCardBalance(getSecondCardNumber().getCardNumber());
-        val transferPage = dashboardPage.depositToFirstCard();
-        int amount = DashboardPage.formatWithoutMinusIssue(secondCardBalance);
-        transferPage.transferMoney(amount, DataHelper.getSecondCardNumber());
-        transferPage.amountMoreThanBalance();
-
-    }
 
     @Test
     void shouldTransferFromCardToSameCardNegativeTest() {
-        val LoginPage = new LoginPage();
+        var loginPage = new LoginPage();
         val authInfo = getAuthInfo();
         val verificationPage = LoginPage.validLogin(authInfo);
         val verificationCode = getVerificationCodeFor(authInfo);

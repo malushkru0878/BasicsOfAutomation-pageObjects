@@ -7,11 +7,11 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
 
-    private SelenideElement loginField = $("[data-test-id=login] input");
-    private SelenideElement passwordField = $("[data-test-id=password] input");
-    private SelenideElement loginButton = $("[data-test-id=action-login]");
+    private static SelenideElement loginField = $("[data-test-id=login] input");
+    private static SelenideElement passwordField = $("[data-test-id=password] input");
+    private static SelenideElement loginButton = $("[data-test-id=action-login]");
 
-    public VerificationPage validLogin(DataHelper.AuthInfo info) {
+    public static VerificationPage validLogin(DataHelper.AuthInfo info) {
         loginField.setValue(info.getLogin());
         passwordField.setValue(info.getPassword());
         loginButton.click();
